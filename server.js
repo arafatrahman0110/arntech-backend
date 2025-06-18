@@ -10,12 +10,17 @@ const PORT = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
 
-// Serve static frontend files from 'public' folder
+// Serve static files from the "public" folder
 app.use(express.static('public'));
 
 // Health check route
 app.get('/healthz', (req, res) => {
   res.send('Server is healthy');
+});
+
+// Test route to check server status
+app.get('/test', (req, res) => {
+  res.send('Test route is working!');
 });
 
 // Order endpoint
