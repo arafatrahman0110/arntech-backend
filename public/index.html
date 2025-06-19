@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,7 +11,6 @@
       margin: 0;
       padding: 0;
     }
-
     .container {
       max-width: 800px;
       margin: 0 auto;
@@ -20,12 +18,10 @@
       background-color: #fff;
       box-shadow: 0 0 10px rgba(0,0,0,0.05);
     }
-
     nav {
       text-align: right;
       margin-bottom: 20px;
     }
-
     nav button {
       background: #0A75C2;
       color: white;
@@ -37,20 +33,16 @@
       border-radius: 6px;
       transition: background 0.3s ease;
     }
-
     nav button:hover {
       background: #095b94;
     }
-
     h1, h2 {
       color: #222;
     }
-
     p {
       line-height: 1.6;
       color: #444;
     }
-
     .buy-btn {
       background-color: #28a745;
       color: white;
@@ -62,11 +54,9 @@
       cursor: pointer;
       transition: background 0.3s ease;
     }
-
     .buy-btn:hover {
       background-color: #1e7e34;
     }
-
     form {
       border: 1px solid #e0e0e0;
       padding: 20px;
@@ -75,14 +65,12 @@
       background-color: #fafafa;
       box-shadow: 0 0 8px rgba(0,0,0,0.03);
     }
-
     label {
       display: block;
       margin-top: 12px;
       font-weight: 600;
       color: #333;
     }
-
     input, select, textarea {
       width: 100%;
       padding: 10px;
@@ -92,25 +80,21 @@
       font-size: 15px;
       box-sizing: border-box;
     }
-
     .fee-info {
       margin-top: 15px;
       font-weight: bold;
       font-size: 16px;
       color: #555;
     }
-
     .hidden {
       display: none;
     }
-
     footer {
       margin-top: 40px;
       font-size: 14px;
       text-align: center;
       color: #888;
     }
-
     img {
       max-width: 200px;
       display: block;
@@ -216,8 +200,11 @@
     const deliveryFee = area === 'ctg' ? 60 : 120;
     const total = productPrice + deliveryFee;
 
+    // Determine current language to show messages accordingly
+    const isEnglish = document.getElementById('content-en').style.display === 'block';
+
     if (!name || !phone || !address) {
-      alert('Please fill all required fields.');
+      alert(isEnglish ? 'Please fill all required fields.' : 'দয়া করে সকল তথ্য পূরণ করুন।');
       return;
     }
 
@@ -236,14 +223,43 @@
       const result = await response.json();
 
       if (response.ok) {
-        alert(`Order placed successfully! Total amount: ৳${total}. We will contact you soon.`);
+        if (payment === 'bkash') {
+          const successMsg = isEnglish
+            ? `Order placed successfully! Total amount: ৳${total}.\nPlease pay via bKash to 01835624175.\nAfter payment, you will be contacted soon.`
+            : `অর্ডার সফল হয়েছে! মোট পরিমাণ: ৳${total}.\nঅনুগ্রহ করে ০১৮৩৫৬২৪১৭৫ নম্বরে বিকাশে পরিশোধ করুন।\nপরিশোধের পরে, আপনাকে দ্রুত যোগাযোগ করা হবে।`;
+
+          alert(successMsg);
+
+          // Open bKash app link (note: might not work on all browsers/devices)
+          const bkashAppLink = `bkash://payment?recipient=01835624175&amount=${total}`;
+          const fallbackUrl = 'https://www.bkash.com/';
+
+          // Try to open app
+          window.location.href = bkashAppLink;
+
+          // Redirect to website if app doesn't open after 1.5 seconds
+          setTimeout(() => {
+            window.location.href = fallbackUrl;
+          }, 1500);
+        } else {
+          alert(isEnglish
+            ? `Order placed successfully! Total amount: ৳${total}. We will contact you soon.`
+            : `অর্ডার সফল হয়েছে! মোট পরিমাণ: ৳${total}. আমরা শীঘ্রই আপনার সাথে যোগাযোগ করব।`
+          );
+        }
         document.getElementById('order-form').reset();
         document.getElementById('order-form').classList.add('hidden');
       } else {
-        alert('Failed to place order: ' + (result.error || 'Unknown error'));
+        alert(isEnglish
+          ? 'Failed to place order: ' + (result.error || 'Unknown error')
+          : 'অর্ডার সম্পন্ন করতে ব্যর্থ হয়েছে: ' + (result.error || 'অজানা ত্রুটি')
+        );
       }
     } catch (err) {
-      alert('Error submitting order: ' + err.message);
+      alert(isEnglish
+        ? 'Error submitting order: ' + err.message
+        : 'অর্ডার জমা দিতে ত্রুটি হয়েছে: ' + err.message
+      );
     }
   }
 
