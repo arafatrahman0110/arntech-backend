@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ArN TeCh - Bilingual</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f2f4f8;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 30px 20px;
+      background-color: #fff;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    }
+    nav {
+      text-align: right;
+      margin-bottom: 20px;
+    }
+    nav button {
+      background: #0A75C2;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      margin-left: 10px;
+      cursor: pointer;
+      font-weight: 600;
+      border-radius: 6px;
+      transition: background 0.3s ease;
+    }
+    nav button:hover {
+      background: #095b94;
+    }
+    h1, h2 {
+      color: #222;
+    }
+    p {
+      line-height: 1.6;
+      color: #444;
+    }
+    .buy-btn {
+      background-color: #28a745;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      font-size: 16px;
+      margin-top: 15px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    .buy-btn:hover {
+      background-color: #1e7e34;
+    }
+    form {
+      border: 1px solid #e0e0e0;
+      padding: 20px;
+      margin-top: 20px;
+      border-radius: 10px;
+      background-color: #fafafa;
+      box-shadow: 0 0 8px rgba(0,0,0,0.03);
+    }
+    label {
+      display: block;
+      margin-top: 12px;
+      font-weight: 600;
+      color: #333;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 15px;
+      box-sizing: border-box;
+    }
+    .fee-info {
+      margin-top: 15px;
+      font-weight: bold;
+      font-size: 16px;
+      color: #555;
+    }
+    .hidden {
+      display: none;
+    }
+    footer {
+      margin-top: 40px;
+      font-size: 14px;
+      text-align: center;
+      color: #888;
+    }
+    img {
+      max-width: 200px;
+      display: block;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <nav>
+    <button onclick="showLang('en')">English</button>
+    <button onclick="showLang('bn')">বাংলা</button>
+  </nav>
+
+  <div id="content-en">
+    <h1>Welcome to ArN TeCh</h1>
+    <p>We sell electronics and tech products across Bangladesh with trusted delivery.</p>
+
+    <h2>Product & Price</h2>
+    <img src="https://i.imgur.com/OdL0XPt.jpg" alt="Package Sealer" />
+    <p><strong>Package Sealer</strong></p>
+    <p>High quality package sealing machine for home and commercial use.</p>
+    <p>Price: <strong>৳430</strong></p>
+
+    <button class="buy-btn" onclick="document.getElementById('order-form').classList.toggle('hidden')">Buy Now</button>
+  </div>
+
+  <div id="content-bn" style="display:none;">
+    <h1>আন টেক-এ আপনাকে স্বাগতম</h1>
+    <p>আমরা বিশ্বস্ততার সাথে বাংলাদেশে ইলেকট্রনিক্স ও টেক পণ্য বিক্রি করি।</p>
+
+    <h2>পণ্য ও দাম</h2>
+    <img src="https://i.imgur.com/OdL0XPt.jpg" alt="প্যাকেজ সিলার" />
+    <p><strong>প্যাকেজ সিলার</strong></p>
+    <p>বাড়ি এবং বাণিজ্যিক ব্যবহারের জন্য উচ্চমানের প্যাকেজ সিলিং মেশিন।</p>
+    <p>মূল্য: <strong>৪৩০৳</strong></p>
+
+    <button class="buy-btn" onclick="document.getElementById('order-form').classList.toggle('hidden')">অর্ডার করুন</button>
+  </div>
+
+  <form id="order-form" class="hidden" onsubmit="submitOrder(event)">
+    <label for="name">Full Name / পূর্ণ নাম</label>
+    <input type="text" id="name" required />
+
+    <label for="phone">Phone Number / ফোন নম্বর</label>
+    <input type="text" id="phone" required />
+
+    <label for="address">Shipping Address / ঠিকানা</label>
+    <textarea id="address" required></textarea>
+
+    <label for="area">Select Area / আপনার এলাকা</label>
+    <select id="area" onchange="updateFee()">
+      <option value="ctg">Inside Chattogram / চট্টগ্রাম শহরে</option>
+      <option value="outside">Outside Chattogram / চট্টগ্রামের বাইরে</option>
+    </select>
+
+    <p class="fee-info" id="delivery-fee">Delivery Fee: ৳60</p>
+    <p class="fee-info" id="total-price">Total to Pay: ৳490</p>
+
+    <label for="payment">Payment Method / পেমেন্ট</label>
+    <select id="payment">
+      <option value="cod">Cash on Delivery</option>
+      <option value="bkash">bKash</option>
+    </select>
+
+    <p>⏳ <strong>Estimated delivery:</strong> 2–4 days</p>
+
+    <button type="submit" class="buy-btn">Place Order / অর্ডার দিন</button>
+  </form>
+
+  <h2>Contact Us / যোগাযোগ করুন</h2>
+  <p><strong>Phone:</strong> 01737658711</p>
+  <p><strong>Email:</strong> newpc2445@gmail.com</p>
+
+  <footer>
+    &copy; 2025 ArN TeCh. Trusted by hundreds of customers in Bangladesh.
+  </footer>
+</div>
+
+<script>
+  const productPrice = 430;
+
+  function showLang(lang) {
+    document.getElementById('content-en').style.display = (lang === 'en') ? 'block' : 'none';
+    document.getElementById('content-bn').style.display = (lang === 'bn') ? 'block' : 'none';
+  }
+
+  function updateFee() {
+    const area = document.getElementById('area').value;
+    const deliveryFee = area === 'ctg' ? 60 : 120;
+    document.getElementById('delivery-fee').innerText = `Delivery Fee: ৳${deliveryFee}`;
+    document.getElementById('total-price').innerText = `Total to Pay: ৳${productPrice + deliveryFee}`;
+  }
+
+  async function submitOrder(e) {
+    e.preventDefault();
+    const name = document.getElementById('name').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const address = document.getElementById('address').value.trim();
+    const area = document.getElementById('area').value;
+    const payment = document.getElementById('payment').value;
+    const deliveryFee = area === 'ctg' ? 60 : 120;
+    const total = productPrice + deliveryFee;
+
+    // Determine current language to show messages accordingly
+    const isEnglish = document.getElementById('content-en').style.display === 'block';
+
+    if (!name || !phone || !address) {
+      alert(isEnglish ? 'Please fill all required fields.' : 'দয়া করে সকল তথ্য পূরণ করুন।');
+      return;
+    }
+
+    const orderData = {
+      name, phone, address, area, payment, deliveryFee, total,
+      product: "Package Sealer",
+      productPrice,
+    };
+
+    try {
+      const response = await fetch('/api/order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(orderData),
+      });
+      const result = await response.json();
+
+      if (response.ok) {
+        if (payment === 'bkash') {
+          const successMsg = isEnglish
+            ? `Order placed successfully! Total amount: ৳${total}.\nPlease pay via bKash to 01835624175.\nAfter payment, you will be contacted soon.`
+            : `অর্ডার সফল হয়েছে! মোট পরিমাণ: ৳${total}.\nঅনুগ্রহ করে ০১৮৩৫৬২৪১৭৫ নম্বরে বিকাশে পরিশোধ করুন।\nপরিশোধের পরে, আপনাকে দ্রুত যোগাযোগ করা হবে।`;
+
+          alert(successMsg);
+
+          // Open bKash app link (note: might not work on all browsers/devices)
+          const bkashAppLink = `bkash://payment?recipient=01835624175&amount=${total}`;
+          const fallbackUrl = 'https://www.bkash.com/';
+
+          // Try to open app
+          window.location.href = bkashAppLink;
+
+          // Redirect to website if app doesn't open after 1.5 seconds
+          setTimeout(() => {
+            window.location.href = fallbackUrl;
+          }, 1500);
+        } else {
+          alert(isEnglish
+            ? `Order placed successfully! Total amount: ৳${total}. We will contact you soon.`
+            : `অর্ডার সফল হয়েছে! মোট পরিমাণ: ৳${total}. আমরা শীঘ্রই আপনার সাথে যোগাযোগ করব।`
+          );
+        }
+        document.getElementById('order-form').reset();
+        document.getElementById('order-form').classList.add('hidden');
+      } else {
+        alert(isEnglish
+          ? 'Failed to place order: ' + (result.error || 'Unknown error')
+          : 'অর্ডার সম্পন্ন করতে ব্যর্থ হয়েছে: ' + (result.error || 'অজানা ত্রুটি')
+        );
+      }
+    } catch (err) {
+      alert(isEnglish
+        ? 'Error submitting order: ' + err.message
+        : 'অর্ডার জমা দিতে ত্রুটি হয়েছে: ' + err.message
+      );
+    }
+  }
+
+  updateFee();
+</script>
+
+</body>
+</html>
