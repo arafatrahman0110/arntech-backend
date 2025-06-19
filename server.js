@@ -19,49 +19,50 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// Test route to check server status
+// Optional: Test route to check server status
 app.get('/test', (req, res) => {
   res.send('Test route is working!');
 });
 
 // Order endpoint
 app.post('/api/order', async (req, res) => {
-  const { name, phone, address, area, payment, deliveryFee, total, product, productPrice } = req.body;
+  try {
+    const { name, phone, address, area, payment, deliveryFee, product, productPrice } = req.body;
+    const total = Number(productPrice) + Number(deliveryFee);
 
-  if (!name || !phone || !address) {
-    return res.status(400).json({ error: 'Missing required fields' });
-  }
+    if (!name || !phone || !address) {
+      return res.status(400).json({ error: 'Missing required fields' });
+    }
 
-  const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS,
-    },
-  });
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: process.env.EMAIL_USER,  // use EMAIL_USER in .env
+        pass: process.env.EMAIL_PASS,  // use EMAIL_PASS in .env
+      },
+    });
 
-  const mailOptions = {
-    from: process.env.EMAIL_USER,
-    to: process.env.EMAIL_USER,
-    subject: `New Order from ${name}`,
-    text: `
-You have received a new order:
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: process.env.EMAIL_USER,  // Or your receiving email
+      subject: `New Order from ${name}`,
+      text: `
+New order received:
 
 Name: ${name}
 Phone: ${phone}
 Address: ${address}
 Area: ${area}
-Payment method: ${payment}
+Payment Method: ${payment}
 Product: ${product}
 Product Price: ৳${productPrice}
 Delivery Fee: ৳${deliveryFee}
 Total to Pay: ৳${total}
-    `,
-  };
+      `,
+    };
 
-  try {
     await transporter.sendMail(mailOptions);
-    res.json({ message: 'Order received and email sent' });
+    res.json({ message: 'Order placed successfully' });
   } catch (error) {
     console.error('Error sending email:', error);
     res.status(500).json({ error: 'Failed to send email' });
@@ -71,4 +72,3 @@ Total to Pay: ৳${total}
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
-
