@@ -3,121 +3,307 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>ARN TECH - Order Online</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Roboto:wght@400;600&display=swap" rel="stylesheet">
+  <title>ARN TECHS - Order Online</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Roboto:wght@400;600&display=swap" rel="stylesheet" />
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
     body {
       font-family: 'Roboto', sans-serif;
       background: #000;
       color: #fff;
       padding: 30px 20px;
     }
-    .container { max-width: 800px; margin: auto; }
-    nav { text-align: right; margin-bottom: 30px; }
-    nav button {
-      background: #222; color: #fff; border: 1px solid #555;
-      padding: 8px 16px; border-radius: 4px; margin-left: 8px;
-      cursor: pointer; font-family: 'Orbitron';
+    .container {
+      max-width: 800px;
+      margin: auto;
     }
-    nav button:hover { background: #333; }
+    nav {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 30px;
+    }
+    select#language-select {
+      font-family: 'Orbitron', monospace;
+      background: #222;
+      color: #fff;
+      border: 1px solid #555;
+      padding: 6px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 13px;
+      min-width: 100px;
+    }
+    select#language-select:hover {
+      background: #333;
+    }
     .brand {
-      font-family: 'Orbitron'; font-size: 2.5rem;
-      color: #00ffcc; margin-bottom: 20px;
+      font-family: 'Orbitron';
+      font-size: 2.5rem;
+      color: #00ffcc;
+      margin-bottom: 20px;
+      text-align: center;
     }
-    h2, h3 { font-family: 'Orbitron'; color: #ccc; margin-bottom: 12px; }
-    p { margin-bottom: 18px; }
+    h2,
+    h3 {
+      font-family: 'Orbitron';
+      color: #ccc;
+      margin-bottom: 12px;
+    }
+    p {
+      margin-bottom: 10px;
+    }
     img {
-      max-width: 100%; border-radius: 6px; margin: 20px 0;
+      max-width: 100%;
+      border-radius: 6px;
+      margin: 20px 0;
+    }
+    .price-quantity {
+      margin: 10px 0 20px 0;
+      font-family: 'Orbitron';
+      font-size: 18px;
+      font-weight: 700;
+      color: #00ffcc;
+    }
+    .quantity-label {
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    input[type='number'] {
+      width: 60px;
+      padding: 6px 8px;
+      border-radius: 4px;
+      border: 1px solid #555;
+      background: #222;
+      color: #fff;
+      font-size: 16px;
+      font-weight: 600;
+      text-align: center;
+    }
+    .total-price {
+      font-family: 'Orbitron';
+      font-size: 22px;
+      font-weight: 900;
+      color: #00ffcc;
+      margin-top: 15px;
+      margin-bottom: 20px;
     }
     .buy-btn {
-      background: #00ffcc; color: #000; border: none;
-      padding: 12px 24px; border-radius: 6px;
-      font-size: 16px; font-weight: 600; cursor: pointer;
+      background: #00ffcc;
+      color: #000;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
     }
-    .buy-btn:hover { background: #00ccaa; }
+    .buy-btn:hover {
+      background: #00ccaa;
+    }
     form {
-      margin-top: 30px; background: #111;
-      padding: 20px; border-radius: 8px;
+      margin-top: 30px;
+      background: #111;
+      padding: 20px;
+      border-radius: 8px;
       border: 1px solid #333;
     }
     label {
-      display: block; margin-top: 15px;
+      display: block;
+      margin-top: 15px;
     }
-    input, textarea, select {
-      width: 100%; padding: 10px;
-      background: #222; color: #fff;
-      border: 1px solid #444; border-radius: 4px;
+    input,
+    textarea,
+    select {
+      width: 100%;
+      padding: 10px;
+      background: #222;
+      color: #fff;
+      border: 1px solid #444;
+      border-radius: 4px;
       margin-top: 5px;
     }
-    .fee-info { margin-top: 15px; font-weight: 600; }
-    .hidden { display: none; }
+    .fee-info {
+      margin-top: 15px;
+      font-weight: 600;
+    }
+    .hidden {
+      display: none;
+    }
     #order-success {
-      position: fixed; inset: 0;
-      background: rgba(0,0,0,0.85);
-      display: flex; justify-content: center;
-      align-items: center; flex-direction: column;
-      color: #00ffcc; font-family: 'Orbitron';
-      font-size: 28px; z-index: 9999;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.85);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      color: #00ffcc;
+      font-family: 'Orbitron';
+      font-size: 28px;
+      z-index: 9999;
       display: none;
     }
     #order-success svg {
-      width: 80px; height: 80px;
-      stroke: #00ffcc; stroke-width: 6; fill: none;
+      width: 80px;
+      height: 80px;
+      stroke: #00ffcc;
+      stroke-width: 6;
+      fill: none;
       margin-bottom: 20px;
     }
     .social-icons {
-      margin-top: 40px; display: flex;
-      justify-content: center; gap: 20px;
+      margin-top: 40px;
+      display: flex;
+      justify-content: center;
+      gap: 25px;
+      align-items: center;
+      flex-wrap: wrap;
     }
     .social-icons a {
       color: #00ffcc;
       transition: transform 0.2s, opacity 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'Orbitron';
+      font-size: 14px;
+      text-decoration: none;
     }
     .social-icons a:hover {
-      transform: scale(1.2); opacity: 0.8;
+      transform: scale(1.2);
+      opacity: 0.8;
     }
     .social-icons svg {
-      width: 28px; height: 28px;
+      width: 28px;
+      height: 28px;
     }
     footer {
-      margin-top: 40px; text-align: center;
-      font-size: 14px; color: #555;
+      margin-top: 40px;
+      text-align: center;
+      font-size: 14px;
+      color: #555;
+    }
+    .description ul {
+      padding-left: 20px;
+      line-height: 1.6;
     }
   </style>
 </head>
 <body>
   <div class="container">
     <nav>
-      <button onclick="showLang('en')">English</button>
-      <button onclick="showLang('bn')">বাংলা</button>
+      <select id="language-select" onchange="showLang(this.value)">
+        <option value="en">English</option>
+        <option value="bn">বাংলা</option>
+      </select>
     </nav>
-    <div class="brand">ARN TECH</div>
+
+    <div class="brand">ARN TECHS</div>
+
+    <!-- English Content -->
     <div id="content-en">
       <h2>Welcome</h2>
       <p>We sell electronics and tech products across Bangladesh with trusted delivery.</p>
       <h3>Product: Package Sealer</h3>
-      <img src="https://i.imgur.com/OdL0XPt.jpg" alt="Package Sealer">
+      <img src="packagesealer.jpg" alt="Package Sealer" />
       <p>High-quality sealing machine for home or commercial use.</p>
-      <p><strong>৳430</strong></p>
-      <button class="buy-btn" onclick="document.getElementById('order-form').classList.toggle('hidden')">Buy Now</button>
+
+      <div class="price-quantity">
+        <div>Product Price = ৳430 per piece</div>
+        <label class="quantity-label" for="quantity-input">Quantity:</label>
+        <input
+          type="number"
+          id="quantity-input"
+          min="1"
+          value="1"
+          onchange="updateTotal()"
+          oninput="updateTotal()"
+          aria-label="Select quantity"
+        />
+      </div>
+
+      <div class="total-price" id="total-price">Total Price: ৳430</div>
+
+      <button class="buy-btn" onclick="document.getElementById('order-form').classList.toggle('hidden')">
+        Buy Now
+      </button>
+
+      <img src="packet.jpg" alt="Sealing Demo" />
+      <div class="description">
+        <h3>Product Details</h3>
+        <ul>
+          <li><strong>Driven Type:</strong> Electric</li>
+          <li><strong>Packaging Type:</strong> Other</li>
+          <li><strong>After-sales Service Provided:</strong> Other</li>
+          <li><strong>Automatic Grade:</strong> Semi-automatic</li>
+          <li><strong>Packaging Material:</strong> Paper</li>
+          <li><strong>Warranty:</strong> Unavailable</li>
+          <li><strong>Application:</strong> Food</li>
+          <li><strong>Place of Origin:</strong> Zhejiang, China</li>
+          <li><strong>Brand Name:</strong> ZEQUAN</li>
+          <li><strong>Dimension:</strong> 10*4*5cm</li>
+          <li><strong>Key Selling Points:</strong> Multi Color</li>
+          <li><strong>Machinery Test Report:</strong> Not Available</li>
+          <li><strong>Video Outgoing Inspection:</strong> Not Available</li>
+          <li><strong>Core Components:</strong> Other</li>
+          <li><strong>Product Name:</strong> Mini Bag Sealer</li>
+          <li><strong>Usage:</strong> Plastic Pouch Sealing</li>
+          <li><strong>Material:</strong> ABS</li>
+          <li><strong>Color:</strong> 2 colors</li>
+          <li><strong>Packing:</strong> Box</li>
+          <li><strong>Keyword:</strong> Package Sealer</li>
+          <li><strong>Feature:</strong> Easy Operation</li>
+          <li><strong>MOQ:</strong> 50 pcs</li>
+          <li><strong>Suitable for:</strong> PET Plastic</li>
+          <li><strong>Net Weight:</strong> 46g</li>
+        </ul>
+      </div>
     </div>
 
+    <!-- Bangla Content -->
     <div id="content-bn" style="display:none">
       <h2>স্বাগতম</h2>
       <p>আমরা বাংলাদেশে উচ্চমানের ইলেকট্রনিক্স ও টেক পণ্য সরবরাহ করি।</p>
       <h3>পণ্য: প্যাকেজ সিলার</h3>
-      <img src="https://i.imgur.com/OdL0XPt.jpg" alt="">
+      <img src="packagesealer.jpg" alt="Package Sealer" />
       <p>বাড়ি ও ব্যবসায়িক ব্যবহারের জন্য মানসম্মত সিলিং মেশিন।</p>
-      <p><strong>৪৩০৳</strong></p>
-      <button class="buy-btn" onclick="document.getElementById('order-form').classList.toggle('hidden')">অর্ডার করুন</button>
+
+      <div class="price-quantity">
+        <div>পণ্যের দাম = ৪৩০৳ প্রতি পিস</div>
+        <label class="quantity-label" for="quantity-input-bn">পরিমাণ:</label>
+        <input
+          type="number"
+          id="quantity-input-bn"
+          min="1"
+          value="1"
+          onchange="updateTotal()"
+          oninput="updateTotal()"
+          aria-label="পরিমাণ নির্বাচন করুন"
+        />
+      </div>
+
+      <div class="total-price" id="total-price-bn">মোট দাম: ৪৩০৳</div>
+
+      <button class="buy-btn" onclick="document.getElementById('order-form').classList.toggle('hidden')">
+        অর্ডার করুন
+      </button>
+
+      <img src="packet.jpg" alt="প্যাকেট সিলিং" />
     </div>
 
+    <!-- Order Form -->
     <form id="order-form" class="hidden" onsubmit="submitOrder(event)">
       <label>Full Name / পূর্ণ নাম</label>
-      <input type="text" id="name" required>
+      <input type="text" id="name" required />
       <label>Phone Number / ফোন নম্বর</label>
-      <input type="text" id="phone" required>
+      <input type="text" id="phone" required />
       <label>Shipping Address / ঠিকানা</label>
       <textarea id="address" rows="3" required></textarea>
       <label>Select Area / আপনার এলাকা</label>
@@ -126,7 +312,7 @@
         <option value="outside">Outside Chittagong / বাইরে</option>
       </select>
       <p class="fee-info" id="delivery-fee">Delivery Fee: ৳60</p>
-      <p class="fee-info" id="total-price">Total to Pay: ৳490</p>
+      <p class="fee-info" id="total-pay">Total to Pay: ৳490</p>
       <label>Payment Method / পেমেন্ট</label>
       <select id="payment">
         <option value="cod">Cash on Delivery</option>
@@ -135,65 +321,185 @@
     </form>
 
     <div class="social-icons">
-      <a href="https://wa.me/8801737658711" target="_blank" aria-label="WhatsApp">
-        <!-- WhatsApp SVG -->
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="..."/></svg>
+      <a
+        href="https://wa.me/8801737658711"
+        target="_blank"
+        aria-label="WhatsApp"
+        title="WhatsApp"
+        rel="noopener noreferrer"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="currentColor"
+          viewBox="0 0 24 24"
+          role="img"
+          aria-hidden="true"
+        >
+          <path
+            d="M20.52 3.48A11.948 11.948 0 0012 0C5.373 0 0 5.373 0 12a11.95 11.95 0 001.71 6.01L0 24l6.06-1.7A11.95 11.95 0 0012 24c6.627 0 12-5.373 12-12 0-3.26-1.3-6.314-3.48-8.52zM12 21.54a9.528 9.528 0 01-4.814-1.41l-.345-.207-3.6 1.01 1.01-3.51-.213-.35a9.55 9.55 0 012.064-11.43 9.538 9.538 0 0113.544 13.54A9.52 9.52 0 0112 21.54zm5.368-7.024c-.255-.127-1.507-.74-1.74-.824-.233-.085-.403-.127-.573.127-.17.254-.657.825-.805.994-.148.17-.296.19-.55.063-.255-.127-1.08-.398-2.06-1.27-.76-.678-1.273-1.51-1.423-1.765-.148-.255-.016-.393.112-.52.114-.113.255-.296.382-.444.127-.15.17-.255.255-.425.085-.17.042-.31-.02-.436-.063-.127-.572-1.38-.783-1.886-.205-.495-.414-.428-.572-.436-.148-.007-.32-.007-.49-.007a.82.82 0 00-.594.28c-.2.198-.77.755-.77 1.842 0 1.09.79 2.143.9 2.292.11.15 1.55 2.367 3.75 3.32.523.225.93.36 1.25.46.524.17 1 .145 1.38.088.42-.063 1.507-.615 1.72-1.21.21-.593.21-1.1.147-1.21-.063-.113-.23-.17-.49-.298z"
+          />
+        </svg>
+        WhatsApp
       </a>
-      <a href="https://www.facebook.com/yourprofile" target="_blank" aria-label="Facebook">
-        <!-- Facebook SVG -->
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="..."/></svg>
+      <a
+        href="https://www.facebook.com/share/1AZFAxnPWy/"
+        target="_blank"
+        aria-label="Facebook"
+        title="Facebook"
+        rel="noopener noreferrer"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="currentColor"
+          viewBox="0 0 24 24"
+          role="img"
+          aria-hidden="true"
+        >
+          <path
+            d="M22.675 0H1.325C.593 0 0 .594 0 1.326v21.348C0 23.406.593 24 1.325 24H12.82v-9.294H9.692V11.13h3.128V8.413c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.466.099 2.797.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.764v2.313h3.59l-.467 3.576h-3.123V24h6.116C23.406 24 24 23.406 24 22.674V1.326C24 .594 23.406 0 22.675 0z"
+          />
+        </svg>
+        Facebook
       </a>
-      <a href="https://instagram.com/yourprofile" target="_blank" aria-label="Instagram">
-        <!-- Instagram SVG -->
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="..."/></svg>
+      <a
+        href="https://www.instagram.com/techbikreta?igsh=ZXg3NmJ3cTl1Nmlp"
+        target="_blank"
+        aria-label="Instagram"
+        title="Instagram"
+        rel="noopener noreferrer"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="currentColor"
+          viewBox="0 0 24 24"
+          role="img"
+          aria-hidden="true"
+        >
+          <path
+            d="M7.75 2h8.5A5.75 5.75 0 0122 7.75v8.5A5.75 5.75 0 0116.25 22h-8.5A5.75 5.75 0 012 16.25v-8.5A5.75 5.75 0 017.75 2zm0 1.5A4.25 4.25 0 003.5 7.75v8.5A4.25 4.25 0 007.75 20.5h8.5a4.25 4.25 0 004.25-4.25v-8.5A4.25 4.25 0 0016.25 3.5h-8.5zm8.88 2.37a1.125 1.125 0 11-2.25 0 1.125 1.125 0 012.25 0zM12 7a5 5 0 110 10 5 5 0 010-10zm0 1.5a3.5 3.5 0 100 7 3.5 3.5 0 000-7z"
+          />
+        </svg>
+        Instagram
       </a>
+      <a
+        href="mailto:arntech1101@gmail.com"
+        aria-label="Email"
+        title="Email Us"
+        style="color:#00ffcc; font-family: 'Orbitron'; font-size: 14px; align-self: center; margin-left: 12px; text-decoration: none;"
+        >arntech1101@gmail.com</a
+      >
     </div>
 
-    <footer>&copy; 2025 ARN TECH</footer>
+    <footer>
+      &copy; 2025 ARN TECHS. All rights reserved.
+    </footer>
   </div>
 
   <div id="order-success">
-    <svg viewBox="0 0 52 52">
-      <circle cx="26" cy="26" r="25"/>
-      <path d="M14 27l7 7 16-16"/>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 52 52"
+      aria-hidden="true"
+    >
+      <circle
+        cx="26"
+        cy="26"
+        r="25"
+        fill="none"
+        stroke="#00ffcc"
+        stroke-width="2"
+      />
+      <path
+        fill="none"
+        stroke="#00ffcc"
+        stroke-width="4"
+        d="M14 27l7 7 16-16"
+      />
     </svg>
-    Order placed successfully!
+    Order Placed Successfully!
   </div>
 
   <script>
-    const productPrice = 430;
-    function showLang(lang) {
-      document.getElementById('content-en').style.display = lang === 'en' ? 'block' : 'none';
-      document.getElementById('content-bn').style.display = lang === 'bn' ? 'block' : 'none';
+    const pricePerPiece = 430;
+
+    // For English quantity input
+    const quantityInputEn = document.getElementById('quantity-input');
+    // For Bangla quantity input
+    const quantityInputBn = document.getElementById('quantity-input-bn');
+
+    // Update total price for both languages
+    function updateTotal() {
+      const qtyEn = parseInt(quantityInputEn.value) || 1;
+      const qtyBn = parseInt(quantityInputBn.value) || 1;
+
+      // Update total price display for English
+      const totalPriceEn = pricePerPiece * qtyEn;
+      document.getElementById('total-price').textContent =
+        'Total Price: ৳' + totalPriceEn;
+
+      // Update total price display for Bangla
+      const totalPriceBn = pricePerPiece * qtyBn;
+      document.getElementById('total-price-bn').textContent =
+        'মোট দাম: ' + totalPriceBn + '৳';
+
+      // Sync quantity inputs so they stay consistent
+      if (document.getElementById('content-en').style.display !== 'none') {
+        quantityInputBn.value = qtyEn;
+      } else {
+        quantityInputEn.value = qtyBn;
+      }
+
+      updateFee();
     }
+
+    // Handle language switching
+    function showLang(lang) {
+      if (lang === 'en') {
+        document.getElementById('content-en').style.display = 'block';
+        document.getElementById('content-bn').style.display = 'none';
+      } else {
+        document.getElementById('content-en').style.display = 'none';
+        document.getElementById('content-bn').style.display = 'block';
+      }
+      updateTotal();
+    }
+
+    // Delivery fee based on area selection
     function updateFee() {
       const area = document.getElementById('area').value;
-      const fee = area === 'ctg' ? 60 : 120;
-      document.getElementById('delivery-fee').innerText = `Delivery Fee: ৳${fee}`;
-      document.getElementById('total-price').innerText = `Total to Pay: ৳${productPrice + fee}`;
+      const qty =
+        document.getElementById('content-en').style.display !== 'none'
+          ? parseInt(quantityInputEn.value) || 1
+          : parseInt(quantityInputBn.value) || 1;
+      const deliveryFee = area === 'ctg' ? 60 : 120;
+      document.getElementById('delivery-fee').textContent =
+        'Delivery Fee: ৳' + deliveryFee;
+      const totalPay = pricePerPiece * qty + deliveryFee;
+      document.getElementById('total-pay').textContent =
+        'Total to Pay: ৳' + totalPay;
     }
-    async function submitOrder(e) {
+
+    // Submit order handler (just show success message)
+    function submitOrder(e) {
       e.preventDefault();
       const name = document.getElementById('name').value.trim();
       const phone = document.getElementById('phone').value.trim();
       const address = document.getElementById('address').value.trim();
-      const area = document.getElementById('area').value;
-      const payment = document.getElementById('payment').value;
-      const fee = area === 'ctg' ? 60 : 120;
-      const total = productPrice + fee;
-      if (!name || !phone || !address) return alert('Please fill all fields.');
-      const res = await fetch('/api/order', {
-        method: 'POST',
-        headers: {'Content-Type':'application/json'},
-        body: JSON.stringify({name, phone, address, area, payment, deliveryFee: fee, total, product:'Package Sealer', productPrice})
-      });
-      if (res.ok) {
-        document.getElementById('order-success').style.display = 'flex';
+      if (!name || !phone || !address) {
+        alert('Please fill in all required fields.');
+        return;
+      }
+      document.getElementById('order-form').classList.add('hidden');
+      document.getElementById('order-success').style.display = 'flex';
+
+      setTimeout(() => {
+        document.getElementById('order-success').style.display = 'none';
         document.getElementById('order-form').reset();
-        document.getElementById('order-form').classList.add('hidden');
-        setTimeout(() => { document.getElementById('order-success').style.display = 'none'; }, 3000);
-      } else alert('Failed to place order.');
+      }, 3500);
     }
+
+    // Initial setup
+    updateTotal();
     updateFee();
   </script>
 </body>
